@@ -3,7 +3,7 @@ package com.demoshop.Steps;
 import Pages.CartPage;
 import Pages.CheckOutPage;
 import Pages.HomePage;
-import cucumber.api.DataTable;
+import Pages.PayForOrderPage;
 import cucumber.api.java.Before;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
@@ -14,10 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import utils.BillingDetailsDTO;
 import utils.ItemsCatalog;
-
 import java.util.List;
-import java.util.Map;
-
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AddItemsToTheCartSteps {
@@ -26,17 +24,18 @@ public class AddItemsToTheCartSteps {
     private HomePage homePage;
     private CartPage cartPage;
     private CheckOutPage checkOutPage;
+    private PayForOrderPage payForOrderPage;
 //    private String item;
 
     @Before()
-    public void before() throws Throwable{
+    public void before() throws Throwable {
         System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get(url);
     }
 
     @After()
-    public void after() throws Throwable{
+    public void after() throws Throwable {
         driver.quit();
     }
 
@@ -81,4 +80,14 @@ public class AddItemsToTheCartSteps {
         checkOutPage.fillForm(information.get(0));
     }
 
+    @Given("^customer click on Place order button$")
+    public void customer_click_on_Place_order_button() throws Throwable {
+        checkOutPage.placeOrder();
+    }
+
+    @Then("^'(.*)' page is displayed$")
+    public void pago_mas_tarde_page_is_displayed(String title) throws Throwable {
+        payForOrderPage = new PayForOrderPage(driver);
+        assertEquals("Page is not the expected", title, payForOrderPage.getTitle(title));
+    }
 }

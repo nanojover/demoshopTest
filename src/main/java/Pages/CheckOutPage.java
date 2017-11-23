@@ -1,12 +1,12 @@
 package Pages;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import utils.BillingDetailsDTO;
+import utils.ElementWaiter;
 
-import java.util.Map;
+import static java.lang.Thread.sleep;
 
 public class CheckOutPage {
     WebDriver driver;
@@ -40,6 +40,10 @@ public class CheckOutPage {
         driver.findElement(city).sendKeys(information.getTownCity());
         driver.findElement(province).click();
         driver.findElement(province).sendKeys(information.getProvince()+Keys.RETURN);
+    }
+
+    public void placeOrder () throws InterruptedException {
+        sleep(1000);
         driver.findElement(placeOrderButton).click();
     }
 }
